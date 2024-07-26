@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue"
+import { defineComponent, ref, watch } from "vue"
 
 export default defineComponent({
   name: "VolonteersForm",
@@ -16,26 +16,19 @@ export default defineComponent({
     const name = ref("")
     const isUnderage = ref(false)
 
-    const searchName = () => {
+    watch(() => name.value, () => {
       emit("searchName", name.value)
-    }
+    })
 
-    const toggleUnderage = () => {
+    watch(() => isUnderage.value, () => {
       emit("toggleUnderage", isUnderage.value)
-    }
+    })
 
     return {
       name,
       isUnderage,
-      searchName,
-      toggleUnderage,
     }
-  },
-
-  watch: {
-    name: "searchName",
-    isUnderage: "toggleUnderage",
-  },
+  }
 })
 </script>
 

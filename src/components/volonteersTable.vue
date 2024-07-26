@@ -51,11 +51,11 @@ export default defineComponent({
       return formattedVolonteers.value.filter(volonteer => {
 
         if (props.searchQuery && props.showUnderage) {
-          return volonteer.name.toLowerCase().includes(props.searchQuery.toLowerCase())
+          return !volonteer.isAdult ? volonteer.name.toLowerCase().includes(props.searchQuery.toLowerCase()) : false
         } else if (props.searchQuery) {
           return volonteer.isAdult ? volonteer.name.toLowerCase().includes(props.searchQuery.toLowerCase()) : false
         } else if (props.showUnderage) {
-          return volonteer
+          return !volonteer.isAdult
         } else {
           return volonteer.isAdult
         }
