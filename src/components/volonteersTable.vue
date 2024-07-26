@@ -1,18 +1,12 @@
 <template>
   <table>
     <tr>
-      <th>ФИО</th>
-      <th>Возраст</th>
-      <th>Подразделение</th>
-      <th>Ответственный руководитель</th>
-      <th>Мед. противопоказания</th>
+      <th v-for="col in columns" :key="col.key">
+          {{ col.label }}
+      </th>
     </tr>
     <tr v-for="volonteer in filteredVolonteers" :key="volonteer.name">
-      <td>{{ volonteer.name }}</td>
-      <td>{{ volonteer.age }}</td>
-      <td>{{ volonteer.directions }}</td>
-      <td>{{ volonteer.leader }}</td>
-      <td>{{ volonteer.medicalContraindications }}</td>
+      <td v-for="col in columns" :key="col.key">{{ volonteer[col.key] }}</td>
     </tr>
   </table>
 </template>
@@ -61,8 +55,32 @@ export default defineComponent({
         }
       })
     })
+
+    const columns = [
+      {
+        label: "ФИО",
+        key: "name",
+      },
+      {
+        label: "Возраст",
+        key: "age",
+      },
+      {
+        label: "Подразделение",
+        key: "directions",
+      },
+      {
+        label: "Ответственный руководитель",
+        key: "leader",
+      },
+      {
+        label: "Мед. противопоказания",
+        key: "medicalContraindications",
+      },
+    ]
   
     return {
+      columns,
       filteredVolonteers,
     }
   }
