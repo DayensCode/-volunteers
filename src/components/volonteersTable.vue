@@ -12,7 +12,7 @@
       <tr v-for="volonteer in filteredVolonteers" :key="volonteer.name">
         <td v-for="col in columns" :key="col.key">
           <slot v-if="col.key === 'permission' && volonteer.isAdult" name="permissionNotRequired"></slot>
-          <slot v-else-if="col.key === 'permission'" name="permissionRequired"></slot>
+          <slot v-else-if="col.key === 'permission'" name="permissionRequired" :volonteer="volonteer"></slot>
           <slot v-else name="tableData" :col="col" :volonteer="volonteer"></slot>
         </td>
       </tr>
@@ -35,6 +35,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    permissionReceived: {
+      type: Boolean,
+      default: false,
+    },
+    currentId: {
+      type: Number,
+      default: null,
+    },
   },
   setup(props) {
     const formattedVolonteers = computed(() => {
@@ -44,8 +52,9 @@ export default defineComponent({
         directions: volonteer.directions,
         leader: volonteer.leader,
         medicalContraindications: volonteer.medicalContraindications.join(', '),
-        id: volonteer.id,
         isAdult: volonteer.age >= 18,
+        id: volonteer.id,
+        hasPermission: volonteer.id === props.currentId && props.permissionReceived ? true : false,
     }))
 
     return values

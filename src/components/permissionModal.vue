@@ -4,7 +4,7 @@
       <span @click="closeModal">&times;</span>
       <h2>Разрешение от родителей/опекунов на волонтерство на фестивале получено</h2>
       <div>
-        <button>Подтвердить</button>
+        <button @click="getPermission">Подтвердить</button>
         <button @click="closeModal">Отмена</button>
       </div>
     </div>
@@ -22,14 +22,20 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["close"],
+  emits: ["close", "getPermission"],
   setup(_, { emit }) {
     const closeModal = () => {
       emit("close")
     }
 
+    const getPermission = () => {
+      emit("getPermission")
+      emit("close")
+    }
+
     return {
       closeModal,
+      getPermission,
     }
   }
 })
