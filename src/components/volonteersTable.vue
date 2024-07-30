@@ -1,13 +1,22 @@
 <template>
   <table>
-    <tr>
-      <th v-for="col in columns" :key="col.key">
-          {{ col.label }}
-      </th>
-    </tr>
-    <tr v-for="volonteer in filteredVolonteers" :key="volonteer.name">
-      <td v-for="col in columns" :key="col.key">{{ volonteer[col.key] }}</td>
-    </tr>
+    <thead>
+      <tr>
+        <th v-for="col in columns" :key="col.key">
+          <slot name="tableHeader" :col="col"></slot>
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="volonteer in filteredVolonteers" :key="volonteer.name">
+        <td v-for="col in columns" :key="col.key">
+          <slot v-if="col.key === 'permission' && volonteer.isAdult" name="permissionNotRequired"></slot>
+          <slot v-else-if="col.key === 'permission'" name="permissionRequired"></slot>
+          <slot v-else name="tableData" :col="col" :volonteer="volonteer"></slot>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </template>
 
@@ -35,6 +44,7 @@ export default defineComponent({
         directions: volonteer.directions,
         leader: volonteer.leader,
         medicalContraindications: volonteer.medicalContraindications.join(', '),
+        id: volonteer.id,
         isAdult: volonteer.age >= 18,
     }))
 
@@ -76,6 +86,10 @@ export default defineComponent({
       {
         label: "Мед. противопоказания",
         key: "medicalContraindications",
+      },
+      {
+        label: "Разрешение",
+        key: "permission",
       },
     ]
   
