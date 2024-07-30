@@ -8,7 +8,7 @@
   <main>
     <div class="container">
       <VolonteersForm @toggleUnderage="handleToggleUnderage" @searchName="handleSearchName" />
-      <VolonteersTable :showUnderage="showUnderage" :searchQuery="searchQuery" :permissionReceived="permissionReceived" :currentId="currentId">
+      <VolonteersTable :showUnderage="showUnderage" :searchQuery="searchQuery" :permissions="permissions">
 
         <template #tableHeader="{ col }">{{ col.label }}</template>
         <template #tableData="{ col, volonteer }">{{ volonteer[col.key] }}</template>
@@ -45,7 +45,7 @@ export default defineComponent({
 
     const showModal = ref(false)
     const currentId = ref(null)
-    const permissionReceived = ref(false)
+    const permissions = ref({})
 
     const handleSearchName = (name) => {
       searchQuery.value = name
@@ -65,15 +65,15 @@ export default defineComponent({
     }
 
     const handlePermission = () => {
-      permissionReceived.value = true
+      permissions.value = { ...permissions.value, [currentId.value]: true }
+      closeModal()
     }
 
     return {
       searchQuery,
       showUnderage,
       showModal,
-      currentId,
-      permissionReceived,
+      permissions,
       handleSearchName,
       handleToggleUnderage,
       requestPermission,

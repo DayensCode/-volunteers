@@ -10,7 +10,7 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import { defineComponent } from "vue"
 
@@ -30,7 +30,6 @@ export default defineComponent({
 
     const getPermission = () => {
       emit("getPermission")
-      emit("close")
     }
 
     return {
@@ -40,7 +39,7 @@ export default defineComponent({
   }
 })
 </script>
-  
+
 <style lang="scss" scoped>
 .modal {
   display: flex;
@@ -76,4 +75,3 @@ export default defineComponent({
   }
 }
 </style>
-  

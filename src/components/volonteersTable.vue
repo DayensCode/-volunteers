@@ -35,13 +35,9 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    permissionReceived: {
-      type: Boolean,
-      default: false,
-    },
-    currentId: {
-      type: Number,
-      default: null,
+    permissions: {
+      type: Object,
+      default: {},
     },
   },
   setup(props) {
@@ -54,7 +50,7 @@ export default defineComponent({
         medicalContraindications: volonteer.medicalContraindications.join(', '),
         isAdult: volonteer.age >= 18,
         id: volonteer.id,
-        hasPermission: volonteer.id === props.currentId && props.permissionReceived ? true : false,
+        hasPermission: props.permissions[volonteer.id],
     }))
 
     return values
